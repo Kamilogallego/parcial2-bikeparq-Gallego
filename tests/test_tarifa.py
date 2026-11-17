@@ -35,3 +35,17 @@ def test_cp03_tipo_bicicleta_lanza_value_error():
     # Ejecutar y verificar
     with pytest.raises(ValueError):
         calcular_tarifa(minutos, tipo)
+
+
+def test_minutos_negativos_lanzan_value_error():
+    with pytest.raises(ValueError):
+        calcular_tarifa(-1, "carro")
+
+
+def test_mas_de_1440_minutos_lanzan_value_error():
+    with pytest.raises(ValueError):
+        calcular_tarifa(1441, "moto")
+
+
+def test_carro_no_paga_mas_que_el_tope_diario():
+    assert calcular_tarifa(1440, "carro") == 25_000
