@@ -1,27 +1,20 @@
-import os, sys
-from math import *
+TIPOS_COBRADOS = ("carro", "moto")
 
 
-def resumen_del_dia(l):
-    Total=0
-    c=0; m=0
-    for i in range(len(l)):
-        r = l[i]
-        if r["tipo"]=="carro":
-            c=c+1
-            Total=Total+r["valor"]
-        else:
-            if r["tipo"]=="moto":
-                m=m+1
-                Total=Total+r["valor"]
-    return {"total":Total,"carros":c,"motos":m}
+def resumen_del_dia(registros: list[dict]) -> dict:
+    """Resume la caja del día: total cobrado y cantidad de carros y motos."""
+    cobrados = [registro for registro in registros if registro["tipo"] in TIPOS_COBRADOS]
+    return {
+        "total": sum(registro["valor"] for registro in cobrados),
+        "carros": _contar_por_tipo(cobrados, "carro"),
+        "motos": _contar_por_tipo(cobrados, "moto"),
+    }
 
 
-def mayor_cobro(l):
-    x = None
-    for r in l:
-        if x == None or r["valor"] > x:
-            x = r["valor"]
-    if x == None:
-        return 0
-    return x
+def _contar_por_tipo(registros: list[dict], tipo: str) -> int:
+    return sum(1 for registro in registros if registro["tipo"] == tipo)
+
+
+def mayor_cobro(registros: list[dict]) -> int:
+    """Devuelve el mayor valor cobrado en el día, o 0 si no hubo cobros."""
+    return max((registro["valor"] for registro in registros), default=0)
