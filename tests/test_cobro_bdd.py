@@ -1,6 +1,7 @@
 # Pasos del BDD. Los pasos que ya están aquí funcionan: no los cambie.
 from pytest_bdd import given, parsers, scenarios, then, when
 
+from bikeparq.recargo import aplicar_recargo_nocturno
 from bikeparq.tarifa import calcular_tarifa
 
 scenarios("cobro.feature")
@@ -22,3 +23,18 @@ def cobro_esperado(vehiculo, cobro):
 
 
 # PUNTO 3: agregue aquí los pasos de sus escenarios del recargo nocturno.
+
+
+@given(parsers.parse("una tarifa de {tarifa:d} pesos"), target_fixture="cuenta")
+def cuenta(tarifa):
+    return {"tarifa": tarifa}
+
+
+@when(parsers.parse("el vehículo entró a las {hora:d} horas"))
+def entro_a_las(cuenta, hora):
+    cuenta["total"] = aplicar_recargo_nocturno(cuenta["tarifa"], hora)
+
+
+@then(parsers.parse("el total a pagar es de {total:d} pesos"))
+def total_esperado(cuenta, total):
+    assert cuenta["total"] == total
