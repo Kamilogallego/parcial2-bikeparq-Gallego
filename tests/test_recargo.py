@@ -3,3 +3,23 @@ from bikeparq.recargo import aplicar_recargo_nocturno
 
 def test_r1_tarifa_3000_a_las_22_da_5000():
     assert aplicar_recargo_nocturno(3000, 22) == 5000
+
+
+def test_r1_a_las_20_empieza_la_noche_y_hay_recargo():
+    assert aplicar_recargo_nocturno(3000, 20) == 5000
+
+
+def test_r1_a_las_5_todavia_es_de_noche_y_hay_recargo():
+    assert aplicar_recargo_nocturno(3000, 5) == 5000
+
+
+def test_r2_tarifa_3000_a_las_10_no_cambia():
+    assert aplicar_recargo_nocturno(3000, 10) == 3000
+
+
+def test_r2_a_las_19_todavia_es_de_dia_y_no_hay_recargo():
+    assert aplicar_recargo_nocturno(3000, 19) == 3000
+
+
+def test_r2_a_las_6_empieza_el_dia_y_no_hay_recargo():
+    assert aplicar_recargo_nocturno(3000, 6) == 3000
