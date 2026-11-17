@@ -23,3 +23,7 @@ def test_r2_a_las_19_todavia_es_de_dia_y_no_hay_recargo():
 
 def test_r2_a_las_6_empieza_el_dia_y_no_hay_recargo():
     assert aplicar_recargo_nocturno(3000, 6) == 3000
+
+
+def test_r3_tarifa_0_de_noche_no_tiene_recargo():
+    assert aplicar_recargo_nocturno(0, 23) == 0
