@@ -1,3 +1,5 @@
+import pytest
+
 from bikeparq.recargo import aplicar_recargo_nocturno
 
 
@@ -27,3 +29,13 @@ def test_r2_a_las_6_empieza_el_dia_y_no_hay_recargo():
 
 def test_r3_tarifa_0_de_noche_no_tiene_recargo():
     assert aplicar_recargo_nocturno(0, 23) == 0
+
+
+def test_r4_hora_24_lanza_value_error():
+    with pytest.raises(ValueError):
+        aplicar_recargo_nocturno(3000, 24)
+
+
+def test_r4_hora_negativa_lanza_value_error():
+    with pytest.raises(ValueError):
+        aplicar_recargo_nocturno(3000, -1)
